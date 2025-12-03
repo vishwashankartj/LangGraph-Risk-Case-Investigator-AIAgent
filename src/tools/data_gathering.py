@@ -10,6 +10,16 @@ from datetime import datetime, timedelta
 import random
 
 
+def seed_random(entity_id: str):
+    """
+    Seed the random number generator based on entity_id for deterministic results.
+    This ensures the same entity always gets the same mock data.
+    """
+    # Convert entity_id to a consistent integer seed
+    seed_value = sum(ord(c) for c in entity_id)
+    random.seed(seed_value)
+
+
 def fetch_user_profile(entity_id: str) -> Dict[str, Any]:
     """
     Fetch user profile information.
@@ -20,6 +30,47 @@ def fetch_user_profile(entity_id: str) -> Dict[str, Any]:
     Returns:
         User profile data including account details and verification status
     """
+    # Demo entities with hardcoded profiles
+    if entity_id == "USER_001":  # Low-risk profile
+        return {
+            "user_id": entity_id,
+            "username": f"user_{entity_id}",
+            "email": f"{entity_id}@example.com",
+            "registration_date": (datetime.now() - timedelta(days=500)).isoformat(),
+            "account_age_days": 500,
+            "verification_status": "verified",
+            "country": "US",
+            "account_status": "active",
+            "kyc_completed": True
+        }
+    elif entity_id == "USER_002":  # Medium-risk profile
+        return {
+            "user_id": entity_id,
+            "username": f"user_{entity_id}",
+            "email": f"{entity_id}@example.com",
+            "registration_date": (datetime.now() - timedelta(days=120)).isoformat(),
+            "account_age_days": 120,
+            "verification_status": "pending",
+            "country": "VN",
+            "account_status": "active",
+            "kyc_completed": False
+        }
+    elif entity_id == "USER_003":  # High-risk profile
+        return {
+            "user_id": entity_id,
+            "username": f"user_{entity_id}",
+            "email": f"{entity_id}@example.com",
+            "registration_date": (datetime.now() - timedelta(days=15)).isoformat(),
+            "account_age_days": 15,
+            "verification_status": "unverified",
+            "country": "Unknown",
+            "account_status": "active",
+            "kyc_completed": False
+        }
+    
+    # Seed random for deterministic results
+    seed_random(entity_id)
+    
     # Mock data - replace with actual API call
     registration_days_ago = random.randint(30, 730)
     registration_date = datetime.now() - timedelta(days=registration_days_ago)
@@ -47,6 +98,9 @@ def fetch_activity_logs(entity_id: str) -> Dict[str, Any]:
     Returns:
         Activity data including logins, transactions, and device information
     """
+    # Seed random for deterministic results
+    seed_random(entity_id)
+    
     # Mock data - simulate various activity patterns
     num_logins = random.randint(5, 50)
     num_transactions = random.randint(0, 100)
@@ -82,6 +136,9 @@ def fetch_connected_accounts(entity_id: str) -> Dict[str, Any]:
     Returns:
         Connected accounts and relationship data
     """
+    # Seed random for deterministic results
+    seed_random(entity_id)
+    
     num_connections = random.randint(0, 20)
     
     connections = []
@@ -111,6 +168,76 @@ def fetch_past_flags(entity_id: str) -> Dict[str, Any]:
     Returns:
         Historical alert and investigation data
     """
+    # Seed random for deterministic results
+    seed_random(entity_id)
+    
+    # Demo entities with hardcoded flags
+    if entity_id == "USER_001":  # Low-risk: minimal flags
+        return {
+            "total_flags": 0,
+            "past_flags": [],
+            "cleared_flags": 0,
+            "active_investigations": 0
+        }
+    elif entity_id == "USER_002":  # Medium-risk: some cleared flags
+        return {
+            "total_flags": 2,
+            "past_flags": [
+                {
+                    "flag_id": "FLAG_12345",
+                    "timestamp": (datetime.now() - timedelta(days=90)).isoformat(),
+                    "flag_type": "geographic_anomaly",
+                    "resolution": "cleared",
+                    "severity": "low"
+                },
+                {
+                    "flag_id": "FLAG_12346",
+                    "timestamp": (datetime.now() - timedelta(days=30)).isoformat(),
+                    "flag_type": "rapid_follow_unfollow",
+                    "resolution": "warning_issued",
+                    "severity": "medium"
+                }
+            ],
+            "cleared_flags": 1,
+            "active_investigations": 0
+        }
+    elif entity_id == "USER_003":  # High-risk: multiple serious flags
+        return {
+            "total_flags": 4,
+            "past_flags": [
+                {
+                    "flag_id": "FLAG_99001",
+                    "timestamp": (datetime.now() - timedelta(days=5)).isoformat(),
+                    "flag_type": "multiple_account_coordination",
+                    "resolution": "under_review",
+                    "severity": "high"
+                },
+                {
+                    "flag_id": "FLAG_99002",
+                    "timestamp": (datetime.now() - timedelta(days=10)).isoformat(),
+                    "flag_type": "high_value_cash_out",
+                    "resolution": "temporary_ban",
+                    "severity": "high"
+                },
+                {
+                    "flag_id": "FLAG_99003",
+                    "timestamp": (datetime.now() - timedelta(days=12)).isoformat(),
+                    "flag_type": "suspicious_transaction_pattern",
+                    "resolution": "under_review",
+                    "severity": "high"
+                },
+                {
+                    "flag_id": "FLAG_99004",
+                    "timestamp": (datetime.now() - timedelta(days=14)).isoformat(),
+                    "flag_type": "geographic_anomaly",
+                    "resolution": "warning_issued",
+                    "severity": "medium"
+                }
+            ],
+            "cleared_flags": 0,
+            "active_investigations": 2
+        }
+    
     num_flags = random.randint(0, 5)
     
     flags = []
@@ -148,6 +275,60 @@ def fetch_transactions(entity_id: str) -> Dict[str, Any]:
     Returns:
         Transaction data with amounts, recipients, and patterns
     """
+    # Seed random for deterministic results
+    seed_random(entity_id)
+    
+    # Demo entities with hardcoded transactions
+    if entity_id == "USER_001":  # Low-risk: normal activity
+        transactions = [
+            {"transaction_id": "TXN_100001", "timestamp": (datetime.now() - timedelta(hours=48)).isoformat(), "amount": 50.00, "currency": "USD", "type": "purchase", "recipient": "USER_5001", "status": "completed"},
+            {"transaction_id": "TXN_100002", "timestamp": (datetime.now() - timedelta(hours=72)).isoformat(), "amount": 25.00, "currency": "USD", "type": "gift_sent", "recipient": "USER_5002", "status": "completed"},
+            {"transaction_id": "TXN_100003", "timestamp": (datetime.now() - timedelta(hours=120)).isoformat(), "amount": 100.00, "currency": "USD", "type": "deposit", "recipient": "SYSTEM", "status": "completed"},
+        ]
+        return {
+            "total_transactions": 15,
+            "recent_transactions": transactions,
+            "total_volume_usd": 450.00,
+            "last_24h_transactions": 0,
+            "last_24h_volume_usd": 0.00,
+            "avg_transaction_size": 30.00,
+            "cash_out_ratio": 0.0
+        }
+    elif entity_id == "USER_002":  # Medium-risk: moderate suspicious activity
+        transactions = [
+            {"transaction_id": "TXN_200001", "timestamp": (datetime.now() - timedelta(hours=12)).isoformat(), "amount": 500.00, "currency": "USD", "type": "cash_out", "recipient": "EXTERNAL", "status": "completed"},
+            {"transaction_id": "TXN_200002", "timestamp": (datetime.now() - timedelta(hours=18)).isoformat(), "amount": 200.00, "currency": "USD", "type": "gift_sent", "recipient": "USER_6001", "status": "completed"},
+            {"transaction_id": "TXN_200003", "timestamp": (datetime.now() - timedelta(hours=20)).isoformat(), "amount": 180.00, "currency": "USD", "type": "gift_received", "recipient": "USER_6001", "status": "completed"},
+            {"transaction_id": "TXN_200004", "timestamp": (datetime.now() - timedelta(hours=24)).isoformat(), "amount": 300.00, "currency": "USD", "type": "purchase", "recipient": "USER_6002", "status": "completed"},
+        ]
+        return {
+            "total_transactions": 35,
+            "recent_transactions": transactions,
+            "total_volume_usd": 2500.00,
+            "last_24h_transactions": 4,
+            "last_24h_volume_usd": 1180.00,
+            "avg_transaction_size": 71.43,
+            "cash_out_ratio": 0.15
+        }
+    elif entity_id == "USER_003":  # High-risk: very suspicious activity
+        transactions = [
+            {"transaction_id": "TXN_300001", "timestamp": (datetime.now() - timedelta(hours=2)).isoformat(), "amount": 5000.00, "currency": "USD", "type": "cash_out", "recipient": "EXTERNAL", "status": "flagged"},
+            {"transaction_id": "TXN_300002", "timestamp": (datetime.now() - timedelta(hours=4)).isoformat(), "amount": 3500.00, "currency": "USD", "type": "cash_out", "recipient": "EXTERNAL", "status": "completed"},
+            {"transaction_id": "TXN_300003", "timestamp": (datetime.now() - timedelta(hours=6)).isoformat(), "amount": 1000.00, "currency": "USD", "type": "gift_sent", "recipient": "USER_7001", "status": "completed"},
+            {"transaction_id": "TXN_300004", "timestamp": (datetime.now() - timedelta(hours=7)).isoformat(), "amount": 950.00, "currency": "USD", "type": "gift_received", "recipient": "USER_7001", "status": "completed"},
+            {"transaction_id": "TXN_300005", "timestamp": (datetime.now() - timedelta(hours=8)).isoformat(), "amount": 1000.00, "currency": "USD", "type": "gift_sent", "recipient": "USER_7002", "status": "completed"},
+            {"transaction_id": "TXN_300006", "timestamp": (datetime.now() - timedelta(hours=9)).isoformat(), "amount": 980.00, "currency": "USD", "type": "gift_received", "recipient": "USER_7002", "status": "completed"},
+        ]
+        return {
+            "total_transactions": 50,
+            "recent_transactions": transactions,
+            "total_volume_usd": 15000.00,
+            "last_24h_transactions": 6,
+            "last_24h_volume_usd": 12430.00,
+            "avg_transaction_size": 300.00,
+            "cash_out_ratio": 0.45
+        }
+    
     num_transactions = random.randint(10, 100)
     
     # Generate recent transactions
