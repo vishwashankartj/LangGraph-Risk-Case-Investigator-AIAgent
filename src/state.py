@@ -5,19 +5,22 @@ This module defines the state schema that flows through all agent nodes
 in the investigation workflow.
 """
 
-from typing import TypedDict, List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional
+from langgraph.graph import MessagesState
 from datetime import datetime
 
 
-class InvestigationState(TypedDict):
+class InvestigationState(MessagesState):
     """
     State object that flows through the investigation graph.
+    Inherits from MessagesState to support chat history automatically.
     
     Each agent node reads from and writes to this state as the investigation
     progresses through the workflow.
     """
     
     # Input
+    # messages: list[Any] is inherited from MessagesState
     entity_id: str
     entity_type: str  # "user", "transaction", or "account"
     

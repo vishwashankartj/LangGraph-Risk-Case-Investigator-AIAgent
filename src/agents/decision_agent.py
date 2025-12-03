@@ -7,7 +7,7 @@ Includes RAG integration for policy compliance.
 
 from typing import Dict, Any
 from src.state import InvestigationState
-from langchain.prompts import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate
 from src.config import Config
 
 
@@ -288,5 +288,24 @@ def decision_agent(state: InvestigationState) -> InvestigationState:
     print(f"   Risk Level: {recommendation.get('risk_level', '').upper()}")
     print(f"   Confidence: {recommendation.get('confidence', 0)}%")
     print(f"   Requires Escalation: {'Yes' if recommendation.get('requires_escalation') else 'No'}")
+    
+    # Add summary to chat history for UI visibility
+    from langchain_core.messages import AIMessage
+    
+    summary = f"""### 🏁 Investigation Complete
+    
+**Entity:** `{entity_id}`
+**Decision:** {recommendation.get('decision')}
+**Risk Level:** {recommendation.get('risk_level', '').upper()} ({risk_score:.1f}/100)
+
+**Justification:**
+{recommendation.get('justification', recommendation.get('llm_analysis', ''))}
+
+**Next Steps:**
+{chr(10).join(['- ' + step for step in recommendation.get('next_steps', [])])}
+"""
+    
+    # MessagesState guarantees 'messages' key exists
+    state['messages'].append(AIMessage(content=summary))
     
     return state

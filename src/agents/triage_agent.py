@@ -26,8 +26,8 @@ def triage_agent(state: InvestigationState) -> InvestigationState:
     print(f"\n{'='*60}")
     print(f"NODE 1: TRIAGE AND DATA GATHERING")
     print(f"{'='*60}")
-    print(f"Entity ID: {state['entity_id']}")
-    print(f"Entity Type: {state['entity_type']}")
+    print(f"Entity ID: {state.get('entity_id', 'UNKNOWN')}")
+    print(f"Entity Type: {state.get('entity_type', 'user')}")
     
     # Validate entity
     if not state.get('entity_id'):

@@ -22,6 +22,7 @@ wheels/
 
 # Virtual Environment
 venv/
+venv_*/
 env/
 ENV/
 
@@ -50,4 +51,9 @@ htmlcov/
 
 # Investigation Reports
 reports/
-*.json
+reports/*.json
+
+# LangGraph
+.langgraph_api/
+
+

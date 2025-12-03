@@ -10,6 +10,7 @@ from src.agents.triage_agent import triage_agent
 from src.agents.analysis_agent import analysis_agent
 from src.agents.narrative_agent import narrative_agent
 from src.agents.decision_agent import decision_agent
+from src.agents.chat_router import chat_router, route_from_chat
 
 
 def create_investigation_graph():
@@ -23,13 +24,27 @@ def create_investigation_graph():
     workflow = StateGraph(InvestigationState)
     
     # Add nodes
+    workflow.add_node("chat_router", chat_router)
     workflow.add_node("triage", triage_agent)
     workflow.add_node("analysis", analysis_agent)
     workflow.add_node("narrative", narrative_agent)
     workflow.add_node("decision", decision_agent)
     
-    # Define edges (sequential flow)
-    workflow.set_entry_point("triage")
+    # Define edges
+    # Start at chat_router to handle both structured and chat inputs
+    workflow.set_entry_point("chat_router")
+    
+    # Conditional routing from chat_router
+    workflow.add_conditional_edges(
+        "chat_router",
+        route_from_chat,
+        {
+            "triage": "triage",
+            "__end__": END
+        }
+    )
+    
+    # Standard investigation flow
     workflow.add_edge("triage", "analysis")
     workflow.add_edge("analysis", "narrative")
     workflow.add_edge("narrative", "decision")

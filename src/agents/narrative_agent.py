@@ -7,7 +7,7 @@ plain-language narrative suitable for decision makers.
 
 from typing import Dict, Any
 from src.state import InvestigationState
-from langchain.prompts import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate
 from src.config import Config
 
 

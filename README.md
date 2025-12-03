@@ -142,6 +142,36 @@ print(f"Risk Score: {risk_score}/100")
 print(f"Decision: {recommendation['decision']}")
 ```
 
+### 🎨 LangGraph Studio UI (Interactive)
+
+The agent includes a fully interactive web UI powered by LangGraph Studio.
+
+**1. Start the Server**
+```bash
+./start_ui_server.sh
+```
+Then open [https://agentchat.vercel.app](https://agentchat.vercel.app) in your browser.
+
+**2. Choose Your Mode**
+
+**💬 Chat Mode (New!)**
+Simply type your request in natural language:
+> "Investigate user USER_001"
+> "Check account ACC_999 for suspicious activity"
+
+The agent will:
+1. Parse your intent
+2. Run the full investigation
+3. **Post a detailed Final Report** back into the chat window 📝
+
+**📝 Structured Mode**
+Use the "Graph" tab to enter specific fields:
+- **Entity Id**: `USER_001`
+- **Entity Type**: `user`
+
+**3. Visual Graph**
+Watch the investigation proceed in real-time as the graph highlights the active agent node (Triage → Analysis → Narrative → Decision).
+
 ## Project Structure
 
 ```

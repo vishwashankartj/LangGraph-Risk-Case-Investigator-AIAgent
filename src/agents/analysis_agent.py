@@ -9,7 +9,7 @@ from typing import Dict, Any, List
 from datetime import datetime
 from src.state import InvestigationState
 from langchain_openai import ChatOpenAI
-from langchain.prompts import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate
 from src.config import Config
 
 

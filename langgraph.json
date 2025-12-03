@@ -1,0 +1,9 @@
+{
+    "dependencies": [
+        "."
+    ],
+    "graphs": {
+        "investigation_agent": "./src/graph.py:create_investigation_graph"
+    },
+    "env": ".env"
+}
