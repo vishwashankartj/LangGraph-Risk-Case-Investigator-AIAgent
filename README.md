@@ -10,12 +10,14 @@ The High-Risk Investigation Agent is an intelligent system that automates the in
 
 ```mermaid
 graph LR
-    A[Start] --> B[Node 1: Triage & Data Gathering]
+    A[Start] --> R[Node 0: Chat Router]
+    R --> B[Node 1: Triage & Data Gathering]
     B --> C[Node 2: Risk Scoring & Pattern Detection]
     C --> D[Node 3: Narrative Generation]
     D --> E[Node 4: Recommendation & Review]
     E --> F[End]
     
+    style R fill:#9C27B0
     style B fill:#4CAF50
     style C fill:#2196F3
     style D fill:#FF9800
@@ -23,6 +25,14 @@ graph LR
 ```
 
 ### Agent Nodes
+
+#### Node 0: Chat Router (Entry Point)
+- **Input**: Chat message (natural language) or structured input (entity_id/entity_type)
+- **Action**: Parses input to extract entity information using regex pattern matching
+- **Patterns Recognized**:
+  - Standard IDs: `USER_123`, `ACC_456`, `TXN_789`
+  - Natural language: "Investigate user USER_001", "Check account ACC_999"
+- **Output**: Populated `entity_id` and `entity_type` → routes to Triage, or ends if no entity found
 
 #### Node 1: Triage and Data Gathering
 - **Input**: Alert/Flagged Entity ID
